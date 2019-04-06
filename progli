@@ -1,0 +1,63 @@
+#!/bin/python3
+import sys, os.path, time
+
+#+-----------------------+
+#|		VARIABLES		|
+#+-----------------------+
+
+rec=lambda: True if len(sys.argv)>1 else False
+
+def usage():
+	print('''
+\033[33m{0}Usage:\033[0m progli [-adh] [PROGNAME]
+\tOrganizer for installed programs, aliases, or just help with common commands.
+\n\033[33m{0}Arguments:\033[0m
+\t-a, --add\tAdds an entry to the list
+\t-d, --delete\tRemoves an entry from the list
+\t-h, --help\tPrints this screen
+\t-l, --list\tLists all programs
+\t-ld,\t\tLists all programs in detail
+	'''.format((lambda x=rec(): "\033[0m" if x==False else "")()))
+	exit(1)
+
+def error(message="Unknown Error", code=1):
+	print("\033[31m[\033[34m|\033[31mX]\033[0m "+message)
+	exit(code)
+
+def main():
+	usage()
+	#Print usage if no argument was given
+	if len(sys.argv)==1:
+		usage()
+
+
+	#Parse command line arguments
+	for i in sys.argv[1:]:
+		#Help menu
+		if i in ["-h", "--help"]:
+			usage()
+		if i in ["-l", "--list"]:
+			print("List!")
+			continue
+
+		#Print error if no program name was given. All following flags require
+		#a program name to be passed
+		if sys.argv[-1][0]=='-':
+			error("No program name given! Use \"progli -h\" for help")
+			exit(1)
+
+		elif i in ["-a", "--add"]:
+			print("Add!")
+		elif i in ["-d", "--delete"]:
+			print("Delete!")
+		elif i in ["-e", "--edit"]:
+			print("Edit!")
+		elif i=="-ld":
+			print("Detailed list!")
+
+
+
+
+
+if __name__=="__main__":
+	main()
