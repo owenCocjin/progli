@@ -17,3 +17,12 @@
 +Last program
 +This is very coolio
 ;
+-ls
+(Lists everything in a given path)
+{ls /path/to/directory}
++l flag prints in detail
++a flag prints everything, including hidden files
+;
+-kelp
+(Like seaweed, but not...)
+;
