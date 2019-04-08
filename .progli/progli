@@ -1,0 +1,77 @@
+#!/bin/python3
+import sys
+from importer import *
+from commonFunctions import *
+
+'''--------------------+
+|		VARIABLES		|
++---------------------'''
+rec=lambda: True if len(sys.argv)>1 else False
+
+'''---------------------+
+|		FUNCTIONS		|
++---------------------'''
+def listCommands(detailed=True):
+	if detailed:
+		for i in Program.all_programs:
+			print(i)
+	else:
+		for i in Program.all_programs:
+			print("\033[34m\033[4m{}\033[0m".format(i.getName()))
+
+def usage():
+	print('''
+\033[33m{0}Usage:\033[0m progli [-adh] [PROGNAME]
+\tOrganizer for installed programs, aliases, or just help with common commands.
+\n\033[33m{0}Arguments:\033[0m
+\t-a, --add\tAdds an entry to the list
+\t-d, --delete\tRemoves an entry from the list
+\t-h, --help\tPrints this screen
+\t-l, --list\tLists all programs
+\t-ld,\t\tLists all programs in detail
+	'''.format((lambda x=rec(): "\033[0m" if x==False else "")()))
+	exit(1)
+
+'''-----------------+
+|		MAIN		|
++-----------------'''
+def main():
+	#List all commands is no arg was given
+	if len(sys.argv)==1:
+		listCommands()
+
+	#Print Program if only a name was given
+	elif len(sys.argv)==2 and 0<ord(sys.argv[1][0].upper())-65<25: #Check if first char is a letters
+		for i in Program.all_programs:
+			if i.getName()==sys.argv[1]:
+				print(i)
+				exit(0)
+		error("progli.main", "Program not found!")
+
+	#Parse command line arguments
+	for i in sys.argv[1:]:
+		#Help menu
+		if i in ["-h", "--help"]:
+			usage()
+		if i in ["-l", "--list"]:
+			listCommands(False)
+			continue
+		elif i=="-ld":
+			listCommands()
+			exit(0)
+
+		#Print error if no program name was given. All following flags require
+		#a program name to be passed
+		if sys.argv[-1][0]=='-':
+			error("progli.main", "No program name given! Use \"progli -h\" for help")
+			exit(1)
+
+		elif i in ["-a", "--add"]:
+			print("Add!")
+		elif i in ["-d", "--delete"]:
+			print("Delete!")
+		elif i in ["-e", "--edit"]:
+			print("Edit!")
+
+if __name__=="__main__":
+	main()

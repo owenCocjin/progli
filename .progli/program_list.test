@@ -1,0 +1,19 @@
+-programName
+(Definition for above program)
+{Most useful command}
++This is the first program
++Does nothing
++Nothing actually happens when you call this program
+; <- signifies end of program details/used as a comment. DO NOT put
+;these "comments" on a formatted line!
+-programName2
+{Most useful command}
+;
+-progNamee
+(Definition)
+;
+-progrumNaime
+{Common command}
++Last program
++This is very coolio
+;
