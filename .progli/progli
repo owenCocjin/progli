@@ -6,7 +6,14 @@ from commonFunctions import *
 '''--------------------+
 |		VARIABLES		|
 +---------------------'''
+global flag, newProgram
 rec=lambda: True if len(sys.argv)>1 else False
+try:
+	flag=sys.argv[1]
+	newProgram=sys.argv[2]
+except:
+	flag=''
+	newProgram=''
 
 '''---------------------+
 |		FUNCTIONS		|
@@ -18,6 +25,7 @@ def listCommands(detailed=True):
 	else:
 		for i in Program.all_programs:
 			print("\033[34m\033[4m{}\033[0m".format(i.getName()))
+	exit(0)
 
 def usage():
 	print('''
@@ -29,6 +37,12 @@ def usage():
 \t-h, --help\tPrints this screen
 \t-l, --list\tLists all programs
 \t-ld,\t\tLists all programs in detail
+\n\033[33m{0}Examples:\033[0m
+\tprogli
+\tprogli -l
+\t\t\033[2mJust prints the program names\033[0m\n
+\tprogli -a newProgramName
+\tprogli -d programToDelete
 	'''.format((lambda x=rec(): "\033[0m" if x==False else "")()))
 	exit(1)
 
@@ -36,6 +50,7 @@ def usage():
 |		MAIN		|
 +-----------------'''
 def main():
+	global flag, newProgram
 	#List all commands is no arg was given
 	if len(sys.argv)==1:
 		listCommands()
@@ -49,29 +64,46 @@ def main():
 		error("progli.main", "Program not found!")
 
 	#Parse command line arguments
-	for i in sys.argv[1:]:
-		#Help menu
-		if i in ["-h", "--help"]:
+	elif len(sys.argv)==2:
+		if flag in ["-h", "--help"]:
 			usage()
-		if i in ["-l", "--list"]:
+		elif flag in ["-l", "--list"]:
 			listCommands(False)
-			continue
-		elif i=="-ld":
+		elif flag=="-ld":
 			listCommands()
-			exit(0)
+		else:
+			usage()
 
-		#Print error if no program name was given. All following flags require
-		#a program name to be passed
-		if sys.argv[-1][0]=='-':
-			error("progli.main", "No program name given! Use \"progli -h\" for help")
-			exit(1)
+	#Prints error if more than 2 args given
+	elif len(sys.argv)>3:
+		error("progli.main", "Too many arguments given!")
 
-		elif i in ["-a", "--add"]:
-			print("Add!")
-		elif i in ["-d", "--delete"]:
-			print("Delete!")
-		elif i in ["-e", "--edit"]:
-			print("Edit!")
+	#Print an error if no name was given
+	elif sys.argv[1][0]=='-' and not 0<ord(sys.argv[2][0].upper())-65<25:
+		error("progli.main", "No program name given! Use \"progli -h\" for help")
+
+	#Processes arguments
+	if flag in ["-a", "--add"]:
+		print("Add!")
+		with open("./.progli/program_list.test", "a") as program_list:
+			curProgram=Program(newProgram)
+			description=str(input("Description (leave blank for none):\n"))
+
+			#Write new Program to the program_list file
+			program_list.write("-{}\n".format(curProgram.getName()))
+			if description!='':
+				program_list.write("({})\n".format(description))
+			program_list.write(";\n")
+		exit(0)
+	elif flag in ["-d", "--delete"]:
+		print("Delete!")
+		exit(0)
+	elif flag in ["-e", "--edit"]:
+		print("Edit!")
+		exit(0)
+
+	print("End of main!")
+	usage()
 
 if __name__=="__main__":
 	main()
