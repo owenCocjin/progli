@@ -65,6 +65,7 @@ class Program():
 +-----------------'''
 #Loop through the program_list file, "compiling" the programs and adding them
 #to the list
+global program_list
 with open("./.progli/program_list.test") as program_list:
 	try:
 		curLine=program_list.readline().strip()
@@ -95,10 +96,12 @@ with open("./.progli/program_list.test") as program_list:
 				while curLine[0]=="+":
 					curProgram.addNote(curLine[1:])
 					curLine=program_list.readline().strip()
+					lineCounter+=1
 
 			#Any line that starts with any other character throws an error
 			else:
 				error("importer.main", "Invalid line in program_list (line {})".format(lineCounter))
 			curLine=program_list.readline().strip()
+
 	except NameError:
 		error("importer.main", "Error found! Probably error in formatting of program_list")
