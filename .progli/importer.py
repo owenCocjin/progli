@@ -9,7 +9,7 @@ class Program():
 	all_programs=[]
 
 	def __init__(self, name):
-		'''
+		''' 
 		A program MUST have a name.
 		It MAY have a description, commonly used command, and multiple notes
 		'''
