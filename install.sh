@@ -46,3 +46,6 @@ if [[ ! -f "/usr/local/bin/progli" ]]; then
 else
 	echo "Symlink already exists!"
 fi
+
+#To: This program,
+#Luv u!
