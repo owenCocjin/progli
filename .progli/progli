@@ -58,6 +58,14 @@ def usage():
 \t\t\033[2mJust prints the program names\033[0m\n
 \tprogli -a newProgramName
 \tprogli -d programToDelete
+\tprogli -e programToFix
+\t\t\033[2mCommands (Leave any text field empty to remove):
+\t\t  n:newName
+\t\t  d:newDefinition
+\t\t  c:newCommand
+\t\t  j:#:newNote <- # is note position.
+\t\t\t\t 1st note @ pos 0.
+\t\t\t\t #>number of notes to add new note\033[0m
 	'''.format((lambda x=rec(): "\033[0m" if x==False else "")()))
 	exit(1)
 
