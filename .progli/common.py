@@ -2,11 +2,13 @@
 ## Version:	0.1
 ## Date:	09/04/19
 
+import os
+
 '''---------------------+
 |		VARIABLES		|
 +---------------------'''
 global plPath
-plPath="./.progli/program_list.test"
+plPath="{}/program_list".format(os.path.dirname(os.path.realpath(__file__)))
 
 '''---------------------+
 |		FUNCTIONS		|
