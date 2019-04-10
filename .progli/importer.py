@@ -1,4 +1,8 @@
 #!/bin/python3
+## Author:	Owen Cocjin
+## Version:	0.1
+## Date:	09/04/19
+
 from common import *
 
 '''-----------------+
@@ -9,7 +13,7 @@ class Program():
 	all_programs=[]
 
 	def __init__(self, name):
-		''' 
+		'''
 		A program MUST have a name.
 		It MAY have a description, commonly used command, and multiple notes
 		'''

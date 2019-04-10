@@ -1,7 +1,8 @@
 #!/bin/python3
 ## Author:	Owen Cocjin
-## Version:	0.1 
+## Version:	0.1
 ## Date:	09/04/19
+## Description: Program to manage a custom list of installed programs
 
 import sys, time
 import cursor  #pip installed library
