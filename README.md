@@ -4,8 +4,9 @@ User installed program/alias manager. Store installed programs, aliases, or comm
 ## Getting Started
 Clone this repository then cd into the created directory
 
-## Installation
+### Installation
 Run the installation script as root (root needs permissions to write into /usr/local/bin, among other things)
+
 *Assuming you're in the cloned directory*
 ```
 sudo ./install.sh
