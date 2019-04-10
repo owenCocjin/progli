@@ -1,7 +1,13 @@
 #!/bin/python3
-import sys
+## Author:	Owen Cocjin
+## Version:	0.1
+## Date:	09/04/19
+
+import sys, time
+import cursor  #pip installed library
 from importer import *
-from commonFunctions import *
+from common import *
+from os import get_terminal_size
 
 '''--------------------+
 |		VARIABLES		|
@@ -9,22 +15,30 @@ from commonFunctions import *
 global flag, newProgram
 rec=lambda: True if len(sys.argv)>1 else False
 try:
-	flag=sys.argv[1]
-	newProgram=sys.argv[2]
+	if sys.argv[1][0]=='-':
+		flag=sys.argv[1]
+		try:
+			newProgram=sys.argv[2]
+		except:
+			newProgram=''
+	else:
+		newProgram=sys.argv[1]
+		flag=''
 except:
-	flag=''
-	newProgram=''
+	pass
+
 
 '''---------------------+
 |		FUNCTIONS		|
 +---------------------'''
 def listCommands(detailed=True):
 	if detailed:
+		print()
 		for i in Program.all_programs:
 			print(i)
 	else:
 		for i in Program.all_programs:
-			print("\033[34m\033[4m{}\033[0m".format(i.getName()))
+			print(i.getName())
 	exit(0)
 
 def usage():
@@ -61,7 +75,7 @@ def main():
 			if i.getName()==sys.argv[1]:
 				print(i)
 				exit(0)
-		error("progli.main", "Program not found!")
+		error("progli.main", "Program \"{}\" not found!".format(newProgram))
 
 	#Parse command line arguments
 	elif len(sys.argv)==2:
@@ -82,27 +96,176 @@ def main():
 	elif sys.argv[1][0]=='-' and not 0<ord(sys.argv[2][0].upper())-65<25:
 		error("progli.main", "No program name given! Use \"progli -h\" for help")
 
-	#Processes arguments
-	if flag in ["-a", "--add"]:
-		print("Add!")
-		with open("./.progli/program_list.test", "a") as program_list:
+	#---------------#
+	#		ADD		#
+	#---------------#
+	if flag in ["-a", "--add"]: #Get info and add it to program_list file
+		print("Adding \"{}\"!".format(newProgram))
+		with open(plPath, "a") as program_list:
 			curProgram=Program(newProgram)
 			description=str(input("Description (leave blank for none):\n"))
+			command=str(input("Common command (leave blank for none):\n"))
+			#Get notes
+			allNotes=[]
+			print("Notes (1 note/line. Leave blank for none):")
+			while True:
+				note=str(input("+ "))
+				if note!='':
+					allNotes.append(note)
+				else:
+					break
 
 			#Write new Program to the program_list file
 			program_list.write("-{}\n".format(curProgram.getName()))
 			if description!='':
 				program_list.write("({})\n".format(description))
+			if command!='':
+				program_list.write("{"+command+"}\n")
+			if len(allNotes)!=0:
+				for i in allNotes:
+					program_list.write("+{}\n".format(i))
 			program_list.write(";\n")
 		exit(0)
+
+	#-------------------#
+	#		DELETE		#
+	#-------------------#
 	elif flag in ["-d", "--delete"]:
-		print("Delete!")
-		exit(0)
-	elif flag in ["-e", "--edit"]:
-		print("Edit!")
+		if input("Are you sure?(yes/no): ").lower()=="yes":
+			print("Deleting {}!".format(newProgram))
+			with open(plPath, "r+") as program_list:
+				prev=program_list.readlines()
+				program_list.seek(0)  #Reset to beginning of file
+				for i in range(len(prev)):
+					#Need try because if lines are deleted, length of prev shrinks,
+					#but the for loop doesn't know this. If an IndexError is
+					#raised (meaning we've reached the end of the list), leave
+					try:
+						if newProgram not in prev[i]:
+							program_list.write(prev[i])
+						else:
+							while prev[i].strip()!=';':
+								del(prev[i])
+							print("\"{}\" deleted!".format(newProgram))
+					except IndexError:
+						program_list.truncate()
+						exit(0)
+
+				#If nothing was found, program won't exit, throwing error below
+				print("\"{}\" not found! Nothing deleted.".format(newProgram))
+		else:
+			print("Don't worry, I won't delete anything.")
 		exit(0)
 
-	print("End of main!")
+	#-------------------#
+	#		EDIT		#
+	#-------------------#
+	elif flag in ["-e", "--edit"]:
+		curProgram=''
+		for i in Program.all_programs:
+			if i.getName()==newProgram:
+				curProgram=i
+		if curProgram=='':
+			print("Couldn't find \"{}\"".format(newProgram))
+			exit(1)
+
+		#Going to alternative buffer
+		print("\033[?1049h")
+		while True:
+			#Prints everything
+			cols, rows=get_terminal_size()
+			print("\033[2J\033[2;H", end='')
+			print(curProgram)
+			print("\033[{};2H:".format(rows-1), end='')
+			altBuff=input().split(':')
+			try:
+				#Quit
+				if altBuff[0].lower() in ["q", "quit"]:
+					print("\033[{};2H".format(rows-2), end='')
+					print("Quit without saving?\033[J")
+					print("\033[{};2H:".format(rows-1), end='')
+					if input().lower() in ["y", "yes"]:
+						print("\033[?1049l", end='')
+						break
+					else:
+						continue
+				#Save & quit
+				elif altBuff[0].lower() in ["s", "save"]:
+					print("\033[{};2H".format(rows-2), end='')
+					print("Save and quit?\033[J")
+					print("\033[{};2H:".format(rows-1), end='')
+
+					if input().lower() in ["y", "yes"]:
+						#Write new Program to file
+						#Open the program_list and read and write everything
+						with open(plPath, "r+") as program_list:
+							prev=program_list.readlines()
+							oldProgramIndex=prev.index("-"+newProgram+'\n')  #all lines end with '\n'
+
+							#Deleting the old program
+							while prev[oldProgramIndex][0]!=';':
+								del(prev[oldProgramIndex])
+							del(prev[oldProgramIndex])  #Delete the final ';'
+
+							#Writing new program
+							prev.insert(oldProgramIndex, "-"+newProgram+'\n')  #Insert name
+							program_list.seek(0)  #Return to top of file
+
+							#Loop through prev, writing each item
+							for i in prev:
+								#If we haven't found the name we inserted, just write
+								if i!=("-"+newProgram+'\n'):
+									program_list.write(i)
+								else:
+									program_list.write(i)  #Write name to file
+									if curProgram.getDescription()!='':
+										program_list.write("({})\n".format(curProgram.getDescription()))
+									if curProgram.getCommand()!='':
+										program_list.write("{"+curProgram.getCommand()+"}\n")
+										oldProgramIndex+=1
+									if len(curProgram.getNotes())!=0:
+										for i in curProgram.getNotes():
+											program_list.write('+'+i+'\n')
+									program_list.write(';\n')
+							program_list.truncate()
+
+						#File is done saving!
+						cursor.hide()
+						print("\033[{};2H\033[JSaved!".format(rows-2))
+						input(" <Press enter to continue>\033[8m")
+						print("\033[?1049l\033[0m", end='')
+						cursor.show()
+						break
+					else:
+						print("Not saving...")
+
+				#Edit name
+				elif altBuff[0].lower() in ["n", "name"]:
+					curProgram.setName(altBuff[1])
+				#Edit description
+				elif altBuff[0].lower() in ["d", "description"]:
+					if altBuff[1]!=' ':
+						curProgram.setDescription(altBuff[1])
+				#Edit command
+				elif altBuff[0].lower() in ["c", "command"]:
+					if altBuff[1]!=' ':
+						curProgram.setCommand(altBuff[1])
+				#Handle notes
+				elif altBuff[0].lower() in ["j", "notes", "note"]:
+					noOfNotes=len(curProgram.getNotes())
+					if int(altBuff[1])>=noOfNotes:
+						curProgram.addNote(altBuff[2])
+					elif 0<=int(altBuff[1])<noOfNotes:
+						if altBuff[2]==' ':
+							curProgram.removeNote(int(altBuff[1]))
+						else:
+							curProgram.editNote(int(altBuff[1]), altBuff[2])
+				else:
+					continue
+			except:
+				pass
+		exit(0)
+
 	usage()
 
 if __name__=="__main__":

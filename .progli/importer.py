@@ -1,5 +1,5 @@
 #!/bin/python3
-from commonFunctions import *
+from common import *
 
 '''-----------------+
 |		CLASSES		|
@@ -21,7 +21,7 @@ class Program():
 
 	def __str__(self):
 		'''Formatted print output. This should simplify the listing process'''
-		toReturn="\033[4m\033[1m\033[34m{}\033[0m".format(self.name) #Always return the name
+		toReturn="    \033[4m\033[1m\033[36m{}\033[0m".format(self.name) #Always return the name
 
 		#Returns description if one exists
 		if self.description!='':
@@ -56,9 +56,15 @@ class Program():
 	def addNote(self, new):
 		self.notes.append(new)
 	def removeNote(self, old):
+		'''Removes a note. Takes the position of the note as an argument'''
 		self.notes.remove(old)
 	def getNotes(self):
 		return self.notes
+	def editNote(self, notePos, new):
+		try:
+			self.notes[notePos]=new
+		except IndexError:
+			error("importer.Program.editNote", "Invalid position given!")
 
 '''-----------------+
 |		MAIN		|
@@ -66,7 +72,7 @@ class Program():
 #Loop through the program_list file, "compiling" the programs and adding them
 #to the list
 global program_list
-with open("./.progli/program_list.test") as program_list:
+with open(plPath) as program_list:
 	try:
 		curLine=program_list.readline().strip()
 		lineCounter=0
