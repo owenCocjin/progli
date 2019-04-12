@@ -28,7 +28,6 @@ try:
 except:
 	pass
 
-
 '''---------------------+
 |		FUNCTIONS		|
 +---------------------'''
@@ -49,6 +48,7 @@ def usage():
 \n\033[33m{0}Arguments:\033[0m
 \t-a, --add\tAdds an entry to the list
 \t-d, --delete\tRemoves an entry from the list
+\t-e, --edit\tEdit specific Program
 \t-h, --help\tPrints this screen
 \t-l, --list\tLists all programs
 \t-ld,\t\tLists all programs in detail
@@ -105,9 +105,9 @@ def main():
 	elif sys.argv[1][0]=='-' and not 0<ord(sys.argv[2][0].upper())-65<25:
 		error("progli.main", "No program name given! Use \"progli -h\" for help")
 
-	#---------------#
-	#		ADD		#
-	#---------------#
+	#-------------------#
+	#        ADD        #
+	#-------------------#
 	if flag in ["-a", "--add"]: #Get info and add it to program_list file
 		print("Adding \"{}\"!".format(newProgram))
 		with open(plPath, "a") as program_list:
