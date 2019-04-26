@@ -37,6 +37,7 @@ if [[ -z $( ls /home/$curUser/.progli ) ]]; then
 	for i in ./.progli/*; do
 		cp $i /home/$curUser/.progli/
 	done
+	chown $curUser:$curUser /home/$curUser/.progli/program_list
 fi
 
 #Create symlink in /usr/local/bin
@@ -46,6 +47,9 @@ if [[ ! -f "/usr/local/bin/progli" ]]; then
 else
 	echo "Symlink already exists!"
 fi
+echo "================================="
+echo "Done! Give it a spin! (\$ progli)"
+echo "================================="
 
 #To: This program,
 #Luv u!
