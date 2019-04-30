@@ -24,7 +24,7 @@ if 't' in flags:
 |		FUNCTIONS		|
 +---------------------'''
 def listCommands(all_programs, t=t, s=s):
-	print(f"s: {s}, t: {t}")
+##	print(f"s: {s}, t: {t}")
 	#Sort list
 	if s:
 		all_programs=sorted(all_programs, key=lambda prog:prog.getName())
@@ -42,9 +42,9 @@ def listCommands(all_programs, t=t, s=s):
 |		MAIN		|
 +-----------------'''
 def main():
-	print(flags)
-	print(assigned)
-	print(args)
+##	print(flags)
+##	print(assigned)
+##	print(args)
 	#List all commands is no arg was given
 	if len(args)+len(flags)==0:
 		listCommands(Program.all_programs, t=True)
