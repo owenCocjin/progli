@@ -17,14 +17,21 @@ from common import *
 '''---------------------+
 |		FUNCTIONS		|
 +---------------------'''
-def listCommands(detailed=True):
+def listCommands(detailed=True, s=False):
+	#Sort list
+	all_programs=Program.all_programs
+	if s:
+		all_programs=sorted(Program.all_programs, key=lambda car:car.getName())
+
 	if detailed:
-		print()
-		for i in Program.all_programs:
+		#Print sorted
+		for i in all_programs:
 			print(i)
+		#Print unsorted
 	else:
-		for i in Program.all_programs:
+		for i in all_programs:
 			print(i.getName())
+
 	exit(0)
 
 '''-----------------+
@@ -32,7 +39,7 @@ def listCommands(detailed=True):
 +-----------------'''
 def main():
 	#List all commands is no arg was given
-	if len(flags)+len(args)==0:
+	if len(args)+len(flags)==0:
 		listCommands()
 
 	#Print Program if only a name was given
@@ -42,8 +49,10 @@ def main():
 	#Parse command line arguments. all the following flags don't need args
 	if len(args)==0:
 		print("Help args")
+		d=(lambda:True if 't' in flags else False)()
+		s=(lambda:True if 's' in flags else False)()
 		[usage() for i in flags if i in ['h', "help"]]
-		[listCommands((lambda :True if 'd' in flags else False)()) for i in flags if i in ['l', "list"]]
+		[listCommands(d, s) for i in flags if i in ['l', "list"]]
 
 	#Print an error if no name was given to a flag that needs an arg
 	if len(flags)>0 and len(args)==0:
