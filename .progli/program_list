@@ -20,3 +20,10 @@
 +Greeting
 +just a filler
 ;
+-hello
+(Hi there)
+;
+-atom
+(Cool text editor)
+{atom ./}
+;
