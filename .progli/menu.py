@@ -1,3 +1,7 @@
+## Author:	Owen Cocjin
+## Version:	0.2
+## Date:	30/04/19
+
 import sys  #Required!
 #--------User's imports--------#
 import time, cursor
@@ -231,3 +235,5 @@ def rec():
 	print(args)
 
 rec()
+
+#Luv u!
