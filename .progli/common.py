@@ -1,6 +1,6 @@
 ## Author:	Owen Cocjin
-## Version:	0.1
-## Date:	09/04/19
+## Version:	0.2
+## Date:	30/04/19
 
 import os
 
@@ -44,3 +44,5 @@ def usage():
 \t\t\t\t #>number of notes to add new note\033[0m
 	'''.format())
 	exit(1)
+
+#Luv u
