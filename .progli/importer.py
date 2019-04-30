@@ -61,7 +61,7 @@ class Program():
 		self.notes.append(new)
 	def removeNote(self, old):
 		'''Removes a note. Takes the position of the note as an argument'''
-		self.notes.remove(old)
+		del(self.notes[old])
 	def getNotes(self):
 		return self.notes
 	def editNote(self, notePos, new):
