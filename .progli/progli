@@ -12,22 +12,26 @@ from common import *
 '''--------------------+
 |		VARIABLES		|
 +---------------------'''
-
+t=s=False
+if 's' in flags:
+	s=True
+	flags.remove('s')
+if 't' in flags:
+	t=True
+	#flags.remove('d')
 
 '''---------------------+
 |		FUNCTIONS		|
 +---------------------'''
-def listCommands(detailed=True, s=False):
+def listCommands(all_programs, t=t, s=s):
+##	print(f"s: {s}, t: {t}")
 	#Sort list
-	all_programs=Program.all_programs
 	if s:
-		all_programs=sorted(Program.all_programs, key=lambda car:car.getName())
-
-	if detailed:
+		all_programs=sorted(all_programs, key=lambda prog:prog.getName())
+	if t:
 		#Print sorted
 		for i in all_programs:
 			print(i)
-		#Print unsorted
 	else:
 		for i in all_programs:
 			print(i.getName())
@@ -38,23 +42,30 @@ def listCommands(detailed=True, s=False):
 |		MAIN		|
 +-----------------'''
 def main():
+##	print(flags)
+##	print(assigned)
+##	print(args)
 	#List all commands is no arg was given
 	if len(args)+len(flags)==0:
-		listCommands()
+		listCommands(Program.all_programs)
 
-	#Print Program if only a name was given
-	elif len(flags)==0 and 0<ord(args[0][0].upper())-65<25: #Check if first char is a letters
-		onlyName()
+	#Print Program if only names were
+	#0<ord(args[0][0].upper())-65<25 <- Check if first char is a letters
+	elif len(flags)==0:
+		temp=[]
+		for i in Program.all_programs:
+			if i.getName() in args:
+				temp.append(i)
+		listCommands(temp, t=True)
+		exit(0)
 
 	#Parse command line arguments. all the following flags don't need args
-	if len(args)==0:
-		d=(lambda:True if 't' in flags else False)()
-		s=(lambda:True if 's' in flags else False)()
+	elif len(args)==0:
 		[usage() for i in flags if i in ['h', "help"]]
-		[listCommands(d, s) for i in flags if i in ['l', "list"]]
+		[listCommands(Program.all_programs) for i in flags if i in ['l', "list"]]
 
 	#Print an error if no name was given to a flag that needs an arg
-	if len(flags)>0 and len(args)==0:
+	elif len(flags)>0 and len(args)==0:
 		error("progli.main", "No program name given! Use \"progli -h\" for help")
 
 	[add() for i in flags if i in ['a', "add"]]  #Get info and add it to program_list file
