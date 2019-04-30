@@ -1,26 +1,22 @@
 -programName
 (Definition for above program)
 {Most useful command}
-+This is the first note
-+Does nothing
-+General format
-;
-;these "comments" on a formatted line!
--ls
-(Lists everything in a given path)
-{ls /path/to/directory}
-+l flag prints in detail
-+a flag prints everything, including hidden files
-;
 -kelp
-(Like seaweed, bbut better!)
+(Like seaweed, but better)
 {kelp --roll=sushi}
-+Green
 +Good with rice
-+Slimey
 +Nice w/ rice
++Very nice 
++Green
 ;
 -poof
-(A puff of magic!)
-+oof
+(Magic sound I guess)
++Shid
++Magical
++Leaves a big mess behind
+;
+-greeting
+(Like "hello", but not)
++Greeting
++just a filler
 ;
