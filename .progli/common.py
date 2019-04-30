@@ -27,7 +27,8 @@ def usage():
 \t-e, --edit\tEdit specific Program
 \t-h, --help\tPrints this screen
 \t-l, --list\tLists all programs
-\t-ld,\t\tLists all programs in detail
+\t-s,\t\tLists all programs alphabetically
+\t-t,\t\tLists all programs in detail
 \n\033[33mExamples:\033[0m
 \tprogli
 \tprogli -l
