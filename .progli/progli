@@ -48,7 +48,6 @@ def main():
 
 	#Parse command line arguments. all the following flags don't need args
 	if len(args)==0:
-		print("Help args")
 		d=(lambda:True if 't' in flags else False)()
 		s=(lambda:True if 's' in flags else False)()
 		[usage() for i in flags if i in ['h', "help"]]
