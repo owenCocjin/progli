@@ -18,13 +18,13 @@ if 's' in flags:
 	flags.remove('s')
 if 't' in flags:
 	t=True
-	#flags.remove('d')
+	flags.remove('t')
 
 '''---------------------+
 |		FUNCTIONS		|
 +---------------------'''
 def listCommands(all_programs, t=t, s=s):
-##	print(f"s: {s}, t: {t}")
+	print(f"s: {s}, t: {t}")
 	#Sort list
 	if s:
 		all_programs=sorted(all_programs, key=lambda prog:prog.getName())
@@ -42,12 +42,12 @@ def listCommands(all_programs, t=t, s=s):
 |		MAIN		|
 +-----------------'''
 def main():
-##	print(flags)
-##	print(assigned)
-##	print(args)
+	print(flags)
+	print(assigned)
+	print(args)
 	#List all commands is no arg was given
 	if len(args)+len(flags)==0:
-		listCommands(Program.all_programs)
+		listCommands(Program.all_programs, t=True)
 
 	#Print Program if only names were
 	#0<ord(args[0][0].upper())-65<25 <- Check if first char is a letters
@@ -61,7 +61,6 @@ def main():
 
 	#Parse command line arguments. all the following flags don't need args
 	elif len(args)==0:
-		[usage() for i in flags if i in ['h', "help"]]
 		[listCommands(Program.all_programs) for i in flags if i in ['l', "list"]]
 
 	#Print an error if no name was given to a flag that needs an arg
@@ -74,7 +73,8 @@ def main():
 
 	[edit() for i in flags if i in ['e', "edit"]]  #Edit a specific program
 
-	print("Final usage!")
+	[usage() for i in flags if i in ['h', "help"]]
+
 	usage()
 
 if __name__=="__main__":
