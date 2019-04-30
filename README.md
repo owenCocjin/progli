@@ -9,8 +9,9 @@ Run the installation script as root (root needs permissions to write into /usr/l
 
 *Assuming you're in the cloned directory:*
 ```
-sudo ./install.sh
+$ sudo ./install.sh
 ```
+**NOTE:** If you are updating from an old version, save the *program_list* file (in *~/.progli*) to somewhere outside the .progli folder, then copy it back. When running *install.sh*, to re-install it will delete the entire *.progli* file, then copy everything from cloned directory.
 
 ### Errors
-For the most part, the installation script will deal with any errors it encounters. There are some times where user interaction is required. just accept everything.
+For the most part, the installation script will deal with any errors it encounters. There are some times where user interaction is required. Just accept everything.
