@@ -228,12 +228,4 @@ def onlyName():
 			exit(0)
 	error("progli.main", "Program \"{}\" not found!".format(programName))
 
-def rec():
-	print("Hello, World!")
-	print(flags)
-	print(assigned)
-	print(args)
-
-rec()
-
 #Luv u!
