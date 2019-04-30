@@ -1,5 +1,5 @@
 ## Author:	Owen Cocjin
-## Version:	0.2
+## Version:	0.3
 ## Date:	30/04/19
 
 import sys  #Required!
@@ -220,12 +220,5 @@ def edit():
 		except:
 			pass
 	exit(0)
-
-def onlyName():
-	for i in Program.all_programs:
-		if i.getName()==args[0]:
-			print(i)
-			exit(0)
-	error("progli.main", "Program \"{}\" not found!".format(programName))
 
 #Luv u!
