@@ -7,9 +7,7 @@ import os
 '''-----------------------+
 |        VARIABLES        |
 +-----------------------'''
-global plPath
 plPath="{}/program_list".format(os.path.dirname(os.path.realpath(__file__)))
-
 '''-----------------------+
 |        FUNCTIONS        |
 +-----------------------'''
