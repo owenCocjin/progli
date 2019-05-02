@@ -1,7 +1,7 @@
 #!/bin/python3
 ## Author:	Owen Cocjin
-## Version:	0.1
-## Date:	09/04/19
+## Version:	0.4
+## Date:	02/05/19
 
 from common import *
 
@@ -19,7 +19,7 @@ class Program():
 		'''
 		self.name=name
 		self.description=""
-		self.command=""
+		self.commands=[]
 		self.notes=[]
 		Program.all_programs.append(self)
 
@@ -32,8 +32,9 @@ class Program():
 			toReturn+="\n\t\033[0m{}\033[0m".format(self.description)
 
 		#Returns common command if one exists
-		if self.command!='':
-			toReturn+="\n\t\033[2m{}\033[0m".format(self.command)
+		if self.commands!='':
+			for i in self.commands:
+				toReturn+=f"\n\t\033[2m$ {i}\033[0m"
 
 		#Returns notes, if any
 		if len(self.notes)>0:
@@ -52,10 +53,17 @@ class Program():
 	def getDescription(self):
 		return self.description
 
-	def setCommand(self, new):
-		self.command=new
-	def getCommand(self):
-		return self.command
+	def addCommand(self, new):
+		self.commands.append(new)
+	def removeCommand(self, old):
+		del(self.commands[old])
+	def editCommands(self, commandPos, new):
+		try:
+			self.commands[commandPos]=new
+		except IndexError:
+			error("importer.Program.editCommands", "Invalid position given!")
+	def getCommands(self):
+		return self.commands
 
 	def addNote(self, new):
 		self.notes.append(new)
@@ -99,7 +107,7 @@ with open(plPath) as program_list:
 			#Add a common command
 			elif curLine[0]=='{':
 				if curLine.strip("{}")!="":
-					curProgram.setCommand(curLine.strip("{}"))
+					curProgram.addCommand(curLine.strip("{}"))
 
 			#Add notes (if any)
 			elif curLine[0]=="+":
