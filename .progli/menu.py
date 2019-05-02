@@ -153,21 +153,20 @@ def edit():
 					#Open the program_list and read and write everything
 					with open(plPath, "r+") as program_list:
 						prev=program_list.readlines()
-						oldProgramIndex=prev.index("-"+programName+'\n')  #all lines end with '\n'
+						oldProgramIndex=prev.index('-'+programName+'\n')  #all lines end with '\n'
 
 						#Deleting the old program
 						while prev[oldProgramIndex][0]!=';':
 							del(prev[oldProgramIndex])
 						del(prev[oldProgramIndex])  #Delete the final ';'
-
 						#Writing new program
-						prev.insert(oldProgramIndex, "-"+programName+'\n')  #Insert name
+						prev.insert(oldProgramIndex, "-"+curProgram.getName()+'\n')  #Insert name
 						program_list.seek(0)  #Return to top of file
 
 						#Loop through prev, writing each item
 						for i in prev:
 							#If we haven't found the name we inserted, just write
-							if i!=("-"+programName+'\n'):
+							if i!=("-"+curProgram.getName()+'\n'):
 								program_list.write(i)
 							else:
 								program_list.write(i)  #Write name to file
