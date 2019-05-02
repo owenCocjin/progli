@@ -1,6 +1,6 @@
 ## Author:	Owen Cocjin
-## Version:	0.3
-## Date:	30/04/19
+## Version:	0.5
+## Date:	02/05/19
 
 import sys  #Required!
 #--------User's imports--------#
@@ -58,7 +58,15 @@ def add():
 	with open(plPath, "a") as program_list:
 		curProgram=Program(programName)
 		description=str(input("Description (leave blank for none):\n"))
-		command=str(input("Common command (leave blank for none):\n"))
+		#Get commands
+		allCommands=[]
+		print("Common command (leave blank for none):")
+		while True:
+			command=str(input("$ "))
+			if command!='':
+				allCommands.append(command)
+			else:
+				break
 		#Get notes
 		allNotes=[]
 		print("Notes (1 note/line. Leave blank for none):")
@@ -73,11 +81,12 @@ def add():
 		program_list.write("-{}\n".format(curProgram.getName()))
 		if description!='':
 			program_list.write("({})\n".format(description))
-		if command!='':
-			program_list.write("{"+command+"}\n")
+		if len(allCommands)!=0:
+			for i in allCommands:
+				program_list.write(f"{{{i}}}\n")
 		if len(allNotes)!=0:
 			for i in allNotes:
-				program_list.write("+{}\n".format(i))
+				program_list.write(f"+{i}\n")
 		program_list.write(";\n")
 	exit(0)
 
@@ -97,11 +106,9 @@ def delete():
 				#but the for loop doesn't know this. If an IndexError is
 				#raised (meaning we've reached the end of the list), leave
 				if programName!=p[1:].strip():
-					print(f"Writing: {p}")
 					program_list.write(p)
 				else:
 					while prev[i].strip()!=';':
-						print(prev[i].strip())
 						del(prev[i])
 					print("\"{}\" deleted!".format(programName))
 
@@ -172,9 +179,11 @@ def edit():
 								program_list.write(i)  #Write name to file
 								if curProgram.getDescription()!='':
 									program_list.write("({})\n".format(curProgram.getDescription()))
-								if curProgram.getCommand()!='':
-									program_list.write("{"+curProgram.getCommand()+"}\n")
-									oldProgramIndex+=1
+								if len(curProgram.getCommands())!=0:
+									for i in curProgram.getCommands():
+										program_list.write(f"{{{i}}}\n")
+
+									##oldProgramIndex+=1
 								if len(curProgram.getNotes())!=0:
 									for i in curProgram.getNotes():
 										program_list.write('+'+i+'\n')
@@ -200,8 +209,14 @@ def edit():
 					curProgram.setDescription(altBuff[1])
 			#Edit command
 			elif altBuff[0].lower() in ["c", "command"]:
-				if altBuff[1]!=' ':
-					curProgram.setCommand(altBuff[1])
+				noOfCommands=len(curProgram.getCommands())
+				if int(altBuff[1])>=noOfCommands:
+					curProgram.addCommand(altBuff[2])
+				elif 0<=int(altBuff[1])<noOfCommands:
+					if altBuff[2]=='':
+						curProgram.removeCommand(int(altBuff[2]))
+					else:
+						curProgram.editCommands(int(altBuff[1]), altBuff[2])
 			#Handle notes
 			elif altBuff[0].lower() in ["j", "notes", "note"]:
 				noOfNotes=len(curProgram.getNotes())
