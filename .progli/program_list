@@ -6,7 +6,7 @@
 {kelp --roll=sushi}
 +Good with rice
 +Nice w/ rice
-+Very nice 
++Very nice
 +Green
 ;
 -poof
@@ -26,4 +26,7 @@
 -atom
 (Cool text editor)
 {atom ./}
+;
+-blatom
+(wefdsjk)
 ;
