@@ -214,7 +214,7 @@ def edit():
 					curProgram.addCommand(altBuff[2])
 				elif 0<=int(altBuff[1])<noOfCommands:
 					if altBuff[2]=='':
-						curProgram.removeCommand(int(altBuff[2]))
+						curProgram.removeCommand(int(altBuff[1]))
 					else:
 						curProgram.editCommands(int(altBuff[1]), altBuff[2])
 			#Handle notes
