@@ -27,7 +27,7 @@ def listCommands(all_programs, t=t, s=s):
 ##	print(f"s: {s}, t: {t}")
 	#Sort list
 	if s:
-		all_programs=sorted(all_programs, key=lambda prog:prog.getName())
+		all_programs=sorted(all_programs, key=lambda prog:prog.getName().lower())
 	if t:
 		#Print sorted
 		for i in all_programs:
