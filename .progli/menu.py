@@ -39,7 +39,7 @@ for i, n in enumerate(sys.argv):
 				pass
 	else:
 		#counts as an argument
-		args.append(n[0:9])
+		args.append(n)
 
 '''-----------------------+
 |        VARIABLES        |
@@ -49,6 +49,10 @@ try:
 	programName=args[0]
 except:
 	pass
+
+print(flags)
+print(assigned)
+print(args)
 
 '''-----------------------+
 |        FUNCTIONS        |
