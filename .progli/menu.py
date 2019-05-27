@@ -50,10 +50,6 @@ try:
 except:
 	pass
 
-print(flags)
-print(assigned)
-print(args)
-
 '''-----------------------+
 |        FUNCTIONS        |
 +-----------------------'''
