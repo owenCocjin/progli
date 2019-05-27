@@ -1,6 +1,6 @@
 ## Author:	Owen Cocjin
-## Version:	0.2
-## Date:	30/04/19
+## Version:	0.7
+## Date:	26/05/19
 
 import os
 
@@ -8,6 +8,7 @@ import os
 |        VARIABLES        |
 +-----------------------'''
 plPath="{}/program_list".format(os.path.dirname(os.path.realpath(__file__)))
+version="Version: 0.7"
 '''-----------------------+
 |        FUNCTIONS        |
 +-----------------------'''
@@ -28,6 +29,7 @@ def usage():
 \t-r,\t\tUse regex. Only for printing
 \t-s,\t\tLists all programs alphabetically
 \t-t,\t\tLists all programs in detail
+\t-v,\t\tPrints version
 \n\033[33mExamples:\033[0m
 \tprogli
 \tprogli -l
@@ -42,6 +44,8 @@ def usage():
 \t\t  j:#:newNote <- # is note position.
 \t\t\t\t 1st note @ pos 0.
 \t\t\t\t #>number of notes to add new note\033[0m
+\tprogli -r "[Aa]*"\033[2m
+\t\tRegex MUST be in quotes\033[0m
 	'''.format())
 	exit(1)
 
