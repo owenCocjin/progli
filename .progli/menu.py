@@ -1,6 +1,6 @@
 ## Author:	Owen Cocjin
-## Version:	0.5
-## Date:	02/05/19
+## Version:	0.7
+## Date:	26/05/19
 
 import sys  #Required!
 #--------User's imports--------#
@@ -20,8 +20,8 @@ args=[]
 
 #--------Process sys.argv--------#
 #Find flags in sys.argv and save them
-sys.argv=sys.argv[1:]  #Remove first arg
-for i, n in enumerate(sys.argv):
+argv_=sys.argv[1:]  #Remove first arg
+for i, n in enumerate(argv_):
 	#If current arg starts with '-', it's a flag
 	if n[0]=='-':
 		#If curreng arg starts with '--', its it's own flag
@@ -34,7 +34,7 @@ for i, n in enumerate(sys.argv):
 				#Try assigning the next argument to this flag
 				flags.append(j)
 			try:
-				assigned[j]=sys.argv[i+1]
+				assigned[j]=argv_[i+1]
 			except:
 				pass
 	else:
@@ -233,6 +233,10 @@ def edit():
 				continue
 		except:
 			pass
+	exit(0)
+
+def v():
+	print(version)
 	exit(0)
 
 #Luv u!
