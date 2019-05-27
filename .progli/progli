@@ -1,10 +1,10 @@
 #!/bin/python3
 ## Author:	Owen Cocjin
-## Version:	0.5
-## Date:	02/05/19
+## Version:	0.7
+## Date:	26/05/19
 ## Description: Program to manage a custom list of installed programs
 
-import sys, time
+import sys, time, re
 from menu import *
 from importer import *
 from common import *
@@ -45,11 +45,30 @@ def main():
 ##	print(flags)
 ##	print(assigned)
 ##	print(args)
+
+	#Use regex to print Programs
+	if 'h' in flags:
+		usage()
+	elif 'v' in flags:
+		v()
+	elif 'r' in assigned:
+		try:
+			#Create list of just Program names (to comapre regex to), and a list of
+			#regex results
+			barePrograms=[i.getName() for i in Program.all_programs]
+			regexResults=[re.search(assigned['r'], i) for i in barePrograms]
+
+			# Create a temp list of all matching commands & print it
+			tempList=[p for p, r in zip(Program.all_programs, regexResults) if r]
+			listCommands(tempList)
+		except re.error:
+			error("Cmd.args", "Check regex! (See python's 're' module for info)")
+
 	#List all commands is no arg was given
 	if len(args)+len(flags)==0:
 		listCommands(Program.all_programs, t=True)
 
-	#Print Program if only names were
+	#Print Program if only names were given
 	#0<ord(args[0][0].upper())-65<25 <- Check if first char is a letters
 	elif len(flags)==0:
 		temp=[]
